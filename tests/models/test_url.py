@@ -130,6 +130,15 @@ def test_url_no_authority():
             b"",
             "!$&'()*+,;= abc ABC 123 :/[]@?#",
         ),
+        # Pipe character in path is percent-encoded, as it is not
+        # a valid `pchar` under RFC 3986.
+        (
+            "https://example.com/|",
+            b"/%7C",
+            "/|",
+            b"",
+            "",
+        ),
     ],
 )
 def test_path_query_fragment(url, raw_path, path, query, fragment):

@@ -27,6 +27,12 @@ def test_urlparse(test_case):
         # Anyone know what's going on here?
         return
 
+    if "|" in test_case["pathname"]:
+        # Skip cases expecting an unencoded pipe in the path.
+        # The pipe is not a valid `pchar` under RFC 3986, so we
+        # percent-encode it, diverging from WHATWG here.
+        return
+
     p = urlparse(test_case["href"])
 
     # Test cases include the protocol with the trailing ":"
